@@ -4,18 +4,14 @@ import edu.uob.constructionmanagementsimulation.entity.Instructor;
 import edu.uob.constructionmanagementsimulation.mapper.InstructorMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/instructors")
-@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class InstructorController {
     @Autowired
     private final InstructorMapper instructorMapper;
-    @Autowired
-    private PasswordEncoder passwordEncoder;
 
     public InstructorController(InstructorMapper instructorMapper) {
         this.instructorMapper = instructorMapper;
@@ -28,8 +24,9 @@ public class InstructorController {
 
     @PostMapping
     public void insert(@RequestBody Instructor instructor) {
-        String hashedPassword = passwordEncoder.encode(instructor.getPassword_hash());
-        instructor.setPassword_hash(hashedPassword);
+        System.out.println("Received a request to insert an instructor with email: " + instructor.getEmail());
+
+        // TODO: password hash
         instructorMapper.insert(instructor);
     }
 

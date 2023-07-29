@@ -10,7 +10,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/seminars")
-@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class SeminarController {
     @Autowired
     private final SeminarMapper seminarMapper;

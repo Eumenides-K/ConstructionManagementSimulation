@@ -11,7 +11,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/groups")
-@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class StudyGroupController {
     @Autowired
     private final StudyGroupMapper studyGroupMapper;

@@ -91,35 +91,18 @@ export default {
       }
     },
     submitForm() {
-      // this.$refs.form.validate((valid) => {
-      //   if (valid) {
-      //     const data = {
-      //       email: this.form.email,
-      //       password: CryptoJS.SHA256(this.form.password).toString()
-      //     };
-      //     axios.post('/instructors', data)
-      //     .then(response => {
-      //       alert("You have successfully signed up!")
-      //       this.$router.push('/');
-      //     })
-      //     .catch(error => {
-      //       alert(error)
-      //     });
-
-      //   } else {
-      //     console.log('form has errors')
-      //   }
-      // })
       const data = {
         email: this.form.email,
-        password: this.form.password
+        password_hash: this.form.password
       };
-      this.$http.post('/instructors', data)
+      this.$axios.post('/instructors', data)
       .then(response => {
+        console.log(response)
         alert("You have successfully signed up!")
         this.$router.push('/');
       })
       .catch(error => {
+        console.log(error)
         alert(error)
       });
     }

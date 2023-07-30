@@ -12,7 +12,12 @@ const routes = [
     path: '/registration',
     name: 'Registration',
     component: Registration
-  }
+  },
+  {
+    path: '/home',
+    name: 'Home',
+    component: Home
+  },
 ]
 
 const router = createRouter({

@@ -43,7 +43,7 @@
           <el-form-item class="login-buttons">
             <el-button type="primary" round @click="signIn">Sign in</el-button>
             <el-button plain @click="signUp">Sign up</el-button>
-            <el-link class="forgot-password-link" type="primary">forget your password?</el-link>
+            <el-link class="forgot-password-link" type="primary" @click="forgetPassword">forget your password?</el-link>
           </el-form-item>
         </el-form>
       </el-main>
@@ -60,10 +60,30 @@
             }
         },
         methods: {
-            signUp() {
+          signUp() {
                 this.$router.push('/registration')
-            }
+            },
+
+            forgetPassword() {
+              alert('Sorry, this feature is still being developed. Please contact the administrator.')
+            },
+
+            async signIn() {  
+              try {
+                const response = await this.$axios.post('/instructors/login', {email: this.email, password_hash: this.password});
+                if (response.data) {
+                  isLoggedIn = true
+                  localStorage.setItem('user', JSON.stringify(response.data));
+                  this.$router.push('/home');
+                } else {
+                  alert('Invalid email or password');
+                } 
+              } catch (error) {
+                console.error('An error occurred:', error);
+              }
+            },
         }
+
     }
 </script>
   

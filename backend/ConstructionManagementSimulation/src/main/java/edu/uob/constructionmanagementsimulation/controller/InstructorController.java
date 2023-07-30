@@ -3,7 +3,10 @@ package edu.uob.constructionmanagementsimulation.controller;
 import edu.uob.constructionmanagementsimulation.entity.Instructor;
 import edu.uob.constructionmanagementsimulation.mapper.InstructorMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.mindrot.jbcrypt.BCrypt;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -26,7 +29,12 @@ public class InstructorController {
     public void insert(@RequestBody Instructor instructor) {
         System.out.println("Received a request to insert an instructor with email: " + instructor.getEmail());
 
-        // TODO: password hash
+        Instructor existingInstructor = instructorMapper.findByEmail(instructor.getEmail());
+        if (existingInstructor != null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Email is already taken!");
+        }
+
+        instructor.setPassword_hash(BCrypt.hashpw(instructor.getPassword_hash(), BCrypt.gensalt()));
         instructorMapper.insert(instructor);
     }
 

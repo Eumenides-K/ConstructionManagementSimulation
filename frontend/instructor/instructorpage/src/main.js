@@ -12,7 +12,7 @@ axios.defaults.baseURL = 'http://localhost:8088'
 
 const app = createApp(App)
 
-app.config.globalProperties.$axios = axios;
+app.config.globalProperties.$axios = axios
 
 app.use(ElementPlus)
 app.use(VueParticles)

@@ -23,6 +23,12 @@ public interface InstructorMapper {
     @Select("SELECT * FROM Instructors")
     List<Instructor> findAll();
 
-    @Select("SELECT * FROM instructors WHERE email = #{email}")
+    @Select("SELECT id, email, password_hash FROM instructors WHERE email = #{email}")
     Instructor findByEmail(String email);
+
+    @Select("SELECT password_hash FROM instructors WHERE email = #{email}")
+    String findPasswordByEmail(String email);
+
+    @Select("SELECT id FROM instructors WHERE email = #{email}")
+    Integer findInstructorIdByEmail(String email);
 }

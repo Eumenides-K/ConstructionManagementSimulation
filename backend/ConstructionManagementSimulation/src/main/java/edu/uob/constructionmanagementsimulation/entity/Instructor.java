@@ -12,6 +12,10 @@ public class Instructor {
         this.email = email;
         this.password_hash = password_hash;
     }
+
+    public String toString() {
+        return "email: " + getEmail() + "\npassword_hash: " + getPassword_hash();
+    }
 }
 
 

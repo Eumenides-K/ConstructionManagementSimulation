@@ -1,5 +1,5 @@
 <template>
-    Home    
+   signed email: {{ this.signedEmail }}    
 </template>
 
 <script>

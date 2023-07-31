@@ -4,6 +4,7 @@ import edu.uob.constructionmanagementsimulation.entity.Instructor;
 import edu.uob.constructionmanagementsimulation.mapper.InstructorMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.web.server.ResponseStatusException;
@@ -53,14 +54,19 @@ public class InstructorController {
         return instructorMapper.findAll();
     }
 
-//    @PostMapping("/login")
-//    public Instructor login(@RequestBody Instructor instructor) {
-//        Instructor existingInstructor = instructorMapper.findByEmail(instructor.getEmail());
-//
-//        if (existingInstructor != null && existingInstructor.getPassword().equals(instructor.getPassword())) {
-//            return new ResponseEntity<>(existingInstructor, HttpStatus.OK);
-//        } else {
-//            return new ResponseEntity<>("Invalid email or password", HttpStatus.UNAUTHORIZED);
-//        }
-//    }
+    @PostMapping(value = "/login")
+    public ResponseEntity<?> login(@RequestBody Instructor instructor) {
+        String hashedPassword = instructorMapper.findPasswordByEmail(instructor.getEmail());
+
+        if (hashedPassword != null && BCrypt.checkpw(instructor.getPassword_hash(), hashedPassword)) {
+            return ResponseEntity.ok(instructorMapper.findInstructorIdByEmail(instructor.getEmail()));
+        } else {
+            return ResponseEntity.status(400).body("Invalid email or password");
+        }
+
+        /*
+        * Unknown error here. An Instructor instance should have been found by the email in the database.
+        * However, Mybatis failed to map the Instructor object. So only the id and password_hash is queried but not the whole Instructor object.
+        */
+    }
 }

@@ -52,11 +52,14 @@
 </template>
 
 <script>
+    import { store } from '@/store.js'
+
     export default {
         data() {
             return {
                 email: '',
-                password: ''
+                password: '',
+                store
             }
         },
         methods: {
@@ -70,20 +73,24 @@
 
             async signIn() {  
               try {
-                const response = await this.$axios.post('/instructors/login', {email: this.email, password_hash: this.password});
-                if (response.data) {
-                  isLoggedIn = true
-                  localStorage.setItem('user', JSON.stringify(response.data));
-                  this.$router.push('/home');
+                const response = await this.$axios.post('/instructors/login', {email: this.email, password_hash: this.password})
+                if (response.status === 200) {
+                  this.store.isAuthenticated = true
+                  this.store.signedEmail = this.email
+                  this.$router.push('/')
                 } else {
-                  alert('Invalid email or password');
+                  alert('Invalid email or password')
                 } 
               } catch (error) {
-                console.error('An error occurred:', error);
+                if (error.response && error.response.status === 400) {
+                  alert('Invalid email or password')
+                } else {
+                  console.error('An error occurred:', error)
+                  alert('An error occurred: ' + error)
+                }
               }
             },
         }
-
     }
 </script>
   

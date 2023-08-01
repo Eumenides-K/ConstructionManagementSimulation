@@ -77,6 +77,7 @@
                 if (response.status === 200) {
                   this.store.isAuthenticated = true
                   this.store.signedEmail = this.email
+                  this.store.signedId = response.data
                   this.$router.push('/')
                 } else {
                   alert('Invalid email or password')

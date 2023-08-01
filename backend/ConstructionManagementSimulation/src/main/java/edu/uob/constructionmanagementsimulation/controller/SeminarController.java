@@ -38,8 +38,9 @@ public class SeminarController {
         seminarMapper.delete(id);
     }
 
-    @GetMapping
+    @GetMapping("/instructor/{instructorId}")
     public List<Seminar> findAllByInstructor(@PathVariable("instructorId") Integer instructorId) {
+        System.out.println("Finding seminars...");
         return seminarMapper.findAllByInstructor(instructorId);
     }
 }

@@ -20,7 +20,7 @@ public interface SeminarMapper {
     @Delete("DELETE FROM Seminars WHERE id = #{id}")
     int delete(@Param("id") Integer id);
 
-    @Select("SELECT * FROM Seminars WHERE instructorId = #{instructorId}")
+    @Select("SELECT * FROM Seminars WHERE instructor_id = #{instructorId}")
     List<Seminar> findAllByInstructor(Integer instructorId);
 
     @Select("SELECT * FROM Seminars WHERE instructorId = #{instructorId}")

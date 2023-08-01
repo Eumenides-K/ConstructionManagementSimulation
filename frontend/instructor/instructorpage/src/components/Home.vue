@@ -21,7 +21,7 @@
       <div class="seminarChoice">
          <h1 style="color: #333; font-size: 1.618vm; font-weight: 500; font-family: 'Roboto', sans-serif; text-shadow: 4px 4px 10px #222222">Welcome, {{ this.store.signedEmail }}</h1>
          <div v-if="seminars.length === 0">
-            <p>You have not created any seminars yet. Please create one.</p>
+            <p style="font-family: 'Roboto'">You have not created any seminars yet. Please create one.</p>
          </div>
          <div v-else>
             <p>Please select a seminar:</p>
@@ -34,7 +34,7 @@
                </el-select>
          </div>
          <br>
-         <el-button type="primary" round>Create a seminar</el-button>
+         <el-button type="primary" round @click="createSeminar">Create a seminar</el-button>
       </div>
    </el-container>
 </template>
@@ -58,6 +58,11 @@
          .catch(error => {
             console.log(error);
          });
+      },
+      methods: {
+         createSeminar() {
+            this.$router.push('/createseminar')
+         }     
       }
    }
 </script>

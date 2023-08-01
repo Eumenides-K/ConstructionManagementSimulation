@@ -56,17 +56,12 @@ public class InstructorController {
 
     @PostMapping(value = "/login")
     public ResponseEntity<?> login(@RequestBody Instructor instructor) {
-        String hashedPassword = instructorMapper.findPasswordByEmail(instructor.getEmail());
+        Instructor foundInstructor = instructorMapper.findByEmail(instructor.getEmail());
 
-        if (hashedPassword != null && BCrypt.checkpw(instructor.getPassword_hash(), hashedPassword)) {
-            return ResponseEntity.ok(instructorMapper.findInstructorIdByEmail(instructor.getEmail()));
+        if (foundInstructor != null && BCrypt.checkpw(instructor.getPassword_hash(), foundInstructor.getPassword_hash())) {
+            return ResponseEntity.ok(foundInstructor.getId());
         } else {
             return ResponseEntity.status(400).body("Invalid email or password");
         }
-
-        /*
-        * Unknown error here. An Instructor instance should have been found by the email in the database.
-        * However, Mybatis failed to map the Instructor object. So only the id and password_hash is queried but not the whole Instructor object.
-        */
     }
 }

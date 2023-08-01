@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import Login from '@/components/Login'
 import Registration from '@/components/Registration'
 import Home from '@/components/Home'
+import CreateSeminar from '@/components/CreateSeminar.vue'
 
 import { store } from '@/store.js'
 
@@ -22,6 +23,11 @@ const routes = [
     name: 'Home',
     component: Home
   },
+  {
+    path: '/createseminar',
+    name: 'CreateSeminar',
+    component: CreateSeminar
+  }
 ]
 
 const router = createRouter({

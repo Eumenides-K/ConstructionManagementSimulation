@@ -1,8 +1,6 @@
 package edu.uob.constructionmanagementsimulation.controller;
 
-import edu.uob.constructionmanagementsimulation.entity.Seminar;
 import edu.uob.constructionmanagementsimulation.entity.StudyGroup;
-import edu.uob.constructionmanagementsimulation.mapper.InstructorMapper;
 import edu.uob.constructionmanagementsimulation.mapper.StudyGroupMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -40,7 +38,7 @@ public class StudyGroupController {
     }
 
     @GetMapping
-    public List<StudyGroup> findAllBySeminar(@PathVariable("seminarId") Integer seminarId) {
-        return studyGroupMapper.findAllBySeminar(seminarId);
+    public List<StudyGroup> findAllBySeminar(@PathVariable("seminar_id") Integer seminar_id) {
+        return studyGroupMapper.findAllBySeminar(seminar_id);
     }
 }

@@ -4,9 +4,16 @@ import lombok.Data;
 import lombok.AllArgsConstructor;
 
 @Data
-@AllArgsConstructor
 public class Seminar {
     private Integer id;
     private String title;
-    private Integer instructorId;
+    private Integer instructor_id;
+
+    public Seminar(Integer id, String title, Integer instructor_id) {
+        this.id = id;
+        this.title = title;
+        this.instructor_id = instructor_id;
+    }
 }
+
+

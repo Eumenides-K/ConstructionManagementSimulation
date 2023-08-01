@@ -7,20 +7,20 @@ import java.util.List;
 
 @Mapper
 public interface InstructorMapper {
-    @Select("SELECT * FROM Instructors WHERE id = #{id}")
+    @Select("SELECT * FROM instructors WHERE id = #{id}")
     Instructor findById(@Param("id") Integer id);
 
-    @Insert("INSERT INTO Instructors(email, password_hash) VALUES(#{email}, #{password_hash})")
+    @Insert("INSERT INTO instructors(email, password_hash) VALUES(#{email}, #{password_hash})")
     @Options(useGeneratedKeys = true, keyProperty = "id")
     int insert(Instructor instructor);
 
-    @Update("UPDATE Instructors SET email = #{email}, password_hash = #{password_hash} WHERE id = #{id}")
+    @Update("UPDATE instructors SET email = #{email}, password_hash = #{password_hash} WHERE id = #{id}")
     int update(Instructor instructor);
 
-    @Delete("DELETE FROM Instructors WHERE id = #{id}")
+    @Delete("DELETE FROM instructors WHERE id = #{id}")
     int delete(@Param("id") Integer id);
 
-    @Select("SELECT * FROM Instructors")
+    @Select("SELECT * FROM instructors")
     List<Instructor> findAll();
 
     @Select("SELECT id, email, password_hash FROM instructors WHERE email = #{email}")

@@ -4,6 +4,7 @@ import edu.uob.constructionmanagementsimulation.mapper.SeminarMapper;
 import edu.uob.constructionmanagementsimulation.entity.Seminar;
 import edu.uob.constructionmanagementsimulation.mapper.InstructorMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,9 +24,15 @@ public class SeminarController {
         return seminarMapper.findById(id);
     }
 
+//    @PostMapping
+//    public void insert(@RequestBody Seminar seminar) {
+//        seminarMapper.insert(seminar);
+//    }
+
     @PostMapping
-    public void insert(@RequestBody Seminar seminar) {
-        seminarMapper.insert(seminar);
+    public ResponseEntity<Integer> insert(@RequestBody Seminar seminar) {
+        int id = seminarMapper.insert(seminar);
+        return ResponseEntity.ok(id);
     }
 
     @PutMapping
@@ -38,9 +45,9 @@ public class SeminarController {
         seminarMapper.delete(id);
     }
 
-    @GetMapping("/instructor/{instructorId}")
-    public List<Seminar> findAllByInstructor(@PathVariable("instructorId") Integer instructorId) {
+    @GetMapping("/instructor/{instructor_id}")
+    public List<Seminar> findAllByInstructor(@PathVariable("instructor_id") Integer instructor_id) {
         System.out.println("Finding seminars...");
-        return seminarMapper.findAllByInstructor(instructorId);
+        return seminarMapper.findAllByInstructor(instructor_id);
     }
 }

@@ -7,22 +7,22 @@ import java.util.List;
 
 @Mapper
 public interface SeminarMapper {
-    @Select("SELECT * FROM Seminars WHERE id = #{id}")
+    @Select("SELECT * FROM seminars WHERE id = #{id}")
     Seminar findById(@Param("id") Integer id);
 
-    @Insert("INSERT INTO Seminars(title, instructor_id) VALUES(#{title}, #{instructorId})")
+    @Insert("INSERT INTO seminars(title, instructor_id) VALUES(#{title}, #{instructor_id})")
     @Options(useGeneratedKeys = true, keyProperty = "id")
     int insert(Seminar seminar);
 
-    @Update("UPDATE Seminars SET title = #{title}, instructor_id = #{instructorId} WHERE id = #{id}")
+    @Update("UPDATE seminars SET title = #{title}, instructor_id = #{instructor_id} WHERE id = #{id}")
     int update(Seminar seminar);
 
-    @Delete("DELETE FROM Seminars WHERE id = #{id}")
+    @Delete("DELETE FROM seminars WHERE id = #{id}")
     int delete(@Param("id") Integer id);
 
-    @Select("SELECT * FROM Seminars WHERE instructor_id = #{instructorId}")
+    @Select("SELECT * FROM seminars WHERE instructor_id = #{instructor_id}")
     List<Seminar> findAllByInstructor(Integer instructorId);
 
-    @Select("SELECT * FROM Seminars WHERE instructorId = #{instructorId}")
+    @Select("SELECT * FROM seminars WHERE instructorId = #{instructor_id}")
     List<Seminar> findAll(Integer instructorId);
 }

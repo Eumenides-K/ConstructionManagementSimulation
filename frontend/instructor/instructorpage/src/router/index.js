@@ -3,6 +3,7 @@ import Login from '@/components/Login'
 import Registration from '@/components/Registration'
 import Home from '@/components/Home'
 import CreateSeminar from '@/components/CreateSeminar.vue'
+import Group from '@/components/Group.vue'
 
 import { store } from '@/store.js'
 
@@ -27,6 +28,11 @@ const routes = [
     path: '/createseminar',
     name: 'CreateSeminar',
     component: CreateSeminar
+  },
+  {
+    path: '/group',
+    name: 'Group',
+    component: Group
   }
 ]
 

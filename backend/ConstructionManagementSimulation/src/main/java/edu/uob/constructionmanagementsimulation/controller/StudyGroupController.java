@@ -37,7 +37,7 @@ public class StudyGroupController {
         studyGroupMapper.delete(id);
     }
 
-    @GetMapping
+    @GetMapping("/seminar/{seminar_id}")
     public List<StudyGroup> findAllBySeminar(@PathVariable("seminar_id") Integer seminar_id) {
         return studyGroupMapper.findAllBySeminar(seminar_id);
     }

@@ -20,6 +20,7 @@
    <el-container direction="vertical" class="seminarCreateContainer">
     <div class="seminarCreate">
         <h1 style="color: #333; font-size: 1.618vm; font-weight: 500; font-family: 'Roboto', sans-serif; text-shadow: 4px 4px 10px #222222">Create a seminar</h1>
+        <el-link type="primary" style="position: absolute; top: 10px; left: 10px; cursor: pointer;" @click="back"><el-icon><Back /></el-icon>Back</el-link>
         <el-input v-model="name" placeholder="Please input the name of the seminar (e.g. 2023MGT)" />
         <br>
         <p style="font-family: 'Roboto'">How many groups are there in the seminar? <el-input-number v-model="num" :min="1" :max="100" /></p>
@@ -77,6 +78,7 @@ export default {
             password_hash: password_hash,
             seminar_id: seminarId
         }
+        // TODO: deduplication
         this.$axios.post('/groups', data)
         .then(response => {
             console.log(response)
@@ -104,6 +106,9 @@ export default {
             retVal += charset.charAt(Math.floor(Math.random() * n));
         }
         return retVal;
+    },
+    back() {
+        this.$router.push('/')
     }
   }
 }

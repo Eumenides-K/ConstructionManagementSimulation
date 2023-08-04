@@ -20,6 +20,7 @@
    <el-container direction="vertical" class="seminarChoiceContainer">
       <div class="seminarChoice">
          <h1 style="color: #333; font-size: 1.618vm; font-weight: 500; font-family: 'Roboto', sans-serif; text-shadow: 4px 4px 10px #222222">Welcome, {{ this.store.signedEmail }}</h1>
+         <el-link type="primary" style="position: absolute; top: 10px; right: 10px; cursor: pointer;" @click="logout"><el-icon><SwitchButton /></el-icon>Logout</el-link>
          <div v-if="seminars.length === 0">
             <p style="font-family: 'Roboto'">You have not created any seminars yet. Please create one.</p>
          </div>
@@ -29,12 +30,16 @@
                   <el-option
                      v-for="seminar in seminars"
                      :key="seminar.id"
-                     :value="seminar.title"
+                     :label="seminar.title"
+                     :value="seminar.id"
                   />
                </el-select>
+               <br>
+               <br>
+               <el-button type="primary" round @click="toGroup">OK</el-button>
          </div>
          <br>
-         <el-button type="primary" round @click="createSeminar">Create a seminar</el-button>
+         <el-link type="primary" round @click="createSeminar">Create a seminar</el-link>
       </div>
    </el-container>
 </template>
@@ -45,7 +50,8 @@
       data() {
          return {
             store,
-            seminars: []
+            seminars: [],
+            selectedSeminar: null
          }
       },
       created() {
@@ -53,15 +59,25 @@
          console.log('finding seminars...')
          this.$axios.get(`/seminars/instructor/${instructorId}`)
          .then(response => {
-            this.seminars = response.data;
+            this.seminars = response.data
          })
          .catch(error => {
-            console.log(error);
-         });
+            console.log(error)
+         })
       },
       methods: {
          createSeminar() {
             this.$router.push('/createseminar')
+         },
+         logout() {
+            this.store.isAuthenticated = false
+            this.store.signedEmail = ''
+            this.store.signedId = 0
+            this.$router.push('login')
+         },
+         toGroup() {
+            this.store.selectedSeminarId = this.selectedSeminar
+            this.$router.push('group')
          }     
       }
    }

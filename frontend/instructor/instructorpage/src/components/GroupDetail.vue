@@ -1,10 +1,13 @@
 <template>
     <h1 style="color: #333; font-size: 1.618vm; font-weight: 500; font-family: 'Roboto', sans-serif; text-shadow: 4px 4px 10px #222222">Groups Detail</h1>
-  <el-table :data="groupData" :default-sort="{ prop: 'name', order: 'descending' }" stripe border style="width: 61.8%">
+  <el-table :data="groupData" :default-sort="{ prop: 'name', order: 'descending' }" stripe border style="width: 61.8%" id="table">
     <el-table-column prop="name" label="Name"/>
     <el-table-column prop="id" label="Group ID"/> 
     <el-table-column prop="password_hash" label="Password"/>
   </el-table>
+
+  <el-link type="primary" @click="deriveExcel">Download as Excel</el-link>
+
   <p style="white-space: nowrap; font-family: 'Roboto'">* Students use the group ID and password to sign in to the game.
     <div style="color: red;">
     One group can only log in on one computer at a time.</div></p>
@@ -27,6 +30,7 @@
 
 <script>
 import { store } from '@/store.js'
+import * as XLSX from 'xlsx'
 
 export default {
     data() {
@@ -48,6 +52,15 @@ export default {
          })
     },
     methods: {
+        deriveExcel() {
+            let workbook = XLSX.utils.table_to_book(document.getElementById('table')); 
+            try {
+                XLSX.writeFile(workbook, 'Groups Info.xlsx');
+                alert('The Excel file is successfully downloaded.')
+            } catch (e) {
+                alert(e)
+            }
+        },
         deleteSeminar() {
             this.dialogVisible = false
             let id = this.store.selectedSeminarId

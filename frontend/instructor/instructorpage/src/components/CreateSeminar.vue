@@ -50,7 +50,11 @@ export default {
             console.log("id: " + response.data)
 
             for (var i = 1; i <= this.num; i++) {
-                let groupName = "Group" + i
+                if (i < 10) {
+                    var groupName = "Group0" + i
+                } else {
+                    var groupName = "Group" + i
+                }
                 this.makeGroup(groupName, response.data)
             }
             alert("You have successfully created a seminar with " + this.num +" groups.")

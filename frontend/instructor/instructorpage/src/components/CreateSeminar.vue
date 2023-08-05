@@ -47,7 +47,7 @@ export default {
         }
         this.$axios.post('/seminars', data)
         .then(response => {
-            console.log(response.data)
+            console.log("id: " + response.data)
 
             for (var i = 1; i <= this.num; i++) {
                 let groupName = "Group" + i
@@ -115,7 +115,7 @@ export default {
 </script>
 
 <style scoped>
-.particle{
+.particle {
     position: absolute;
     top:0;
     width:100%;

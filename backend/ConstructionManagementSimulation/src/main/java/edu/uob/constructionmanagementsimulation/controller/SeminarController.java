@@ -31,8 +31,8 @@ public class SeminarController {
 
     @PostMapping
     public ResponseEntity<Integer> insert(@RequestBody Seminar seminar) {
-        int id = seminarMapper.insert(seminar);
-        return ResponseEntity.ok(id);
+        seminarMapper.insert(seminar);
+        return ResponseEntity.ok(seminar.getId());
     }
 
     @PutMapping
@@ -40,7 +40,7 @@ public class SeminarController {
         seminarMapper.update(seminar);
     }
 
-    @DeleteMapping
+    @DeleteMapping("/{id}")
     public void delete(@PathVariable("id") Integer id) {
         seminarMapper.delete(id);
     }

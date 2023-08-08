@@ -10,7 +10,7 @@ public interface SeminarMapper {
     @Select("SELECT * FROM seminars WHERE id = #{id}")
     Seminar findById(@Param("id") Integer id);
 
-    @Insert("INSERT INTO seminars(title, instructor_id) VALUES(#{title}, #{instructor_id})")
+    @Insert("INSERT INTO seminars(title, instructor_id, start, scd, ls, sef, rc) VALUES(#{title}, #{instructor_id}, #{start}, #{scd}, #{ls}, #{sef}, #{rc})")
     @Options(useGeneratedKeys = true, keyProperty = "id")
     int insert(Seminar seminar);
 

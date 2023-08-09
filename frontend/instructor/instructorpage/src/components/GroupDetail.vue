@@ -8,10 +8,13 @@
 
   <el-link type="primary" @click="deriveExcel">Download as Excel</el-link>
 
-  <p style="white-space: nowrap; font-family: 'Roboto'">* Students use the group ID and password to sign in to the game.
-    <div style="color: red;">
-    One group can only log in on one computer at a time.</div></p>
-    <el-button type="danger" round @click="dialogVisible = true" style="margin-right: 10px; font-family: 'Roboto'">Delete this seminar</el-button>
+    <p style="font-family: 'Roboto'">* Students use the group ID and password to sign in to the game.
+        <div style="color: red;">
+        One group can only log in on one computer at a time.</div>
+    </p>
+    <div>
+        <el-button type="danger" round @click="dialogVisible = true" style="margin-right: 10px; font-family: 'Roboto'">Delete this seminar</el-button>
+    </div>
     <el-dialog
         v-model="dialogVisible"
         title="Warning"
@@ -25,7 +28,10 @@
             </span>
         </template>
     </el-dialog>
-    <el-button type="info" round @click="reselect">Reselect a seminar</el-button>
+    <br>
+    <div>
+        <el-button type="info" round @click="reselect">Reselect a seminar</el-button>
+    </div>
 </template>
 
 <script>

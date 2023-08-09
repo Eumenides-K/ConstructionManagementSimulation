@@ -1,9 +1,11 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import Login from '@/components/Login'
-import Registration from '@/components/Registration'
-import Home from '@/components/Home'
+
+import Login from '@/components/Login.vue'
+import Registration from '@/components/Registration.vue'
+import Home from '@/components/Home.vue'
 import CreateSeminar from '@/components/CreateSeminar.vue'
 import Group from '@/components/Group.vue'
+import Result from '@/components/Result.vue'
 
 import { store } from '@/store.js'
 
@@ -33,6 +35,11 @@ const routes = [
     path: '/group',
     name: 'Group',
     component: Group
+  },
+  {
+    path: '/result',
+    name: 'Result',
+    component: Result
   }
 ]
 
@@ -43,9 +50,9 @@ const router = createRouter({
 
 router.beforeEach((to, from, next) => {
   if (!store.isAuthenticated && to.name !== 'Login' && to.name !== 'Registration') {
-    next({ name: 'Login' });
+    next({ name: 'Login' })
   } else {
-    next();
+    next()
   }
 });
 

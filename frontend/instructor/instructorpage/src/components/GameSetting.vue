@@ -78,11 +78,24 @@
     <p v-if="rc != 0">Regulatory Changes at week {{ rc }}</p>
     <p v-if="scd == 0 && ls == 0 && sef == 0 && rc == 0">No unaticipated events is set.</p>
 </div>
+<br>
+<el-button type="primary" round @click="dialogVisible = true">Start the game</el-button>
+<el-dialog
+    v-model="dialogVisible"
+    title="Warning"
+    width="30%">    
+    <span>Are you sure you want to start a new game run? You cannot modify the scenario settings after the game starts.</span>
+    <template #footer>
+        <span class="dialog-footer">
+            <el-button @click="dialogVisible = false">Cancel</el-button>
+            <el-button type="primary" @click="startGame" style="font-family: 'Roboto'">Confirm</el-button>
+        </span>
+    </template>
+</el-dialog>
 </template>
 
 <script>
-
-
+import { store } from '@/store.js'
 export default {
     data() { 
         return {
@@ -103,7 +116,43 @@ export default {
                 { label: '8', value: 8 },
                 { label: '9', value: 9 },
                 { label: '10', value: 10 }
-            ]
+            ],
+            dialogVisible: false,
+            store
+        }
+    },
+    methods: {
+        startGame() {
+            const data = {
+                id: this.store.selectedSeminarId,
+                title: this.store.selectedSeminarName,
+                instructor_id: this.store.signedId,
+                start: true,
+                scd: this.scd,
+                ls: this.ls,
+                sef: this.sef,
+                rc: this.rc
+            }
+            console.log(data)
+            this.$axios.put('/seminars', data).
+            then(response => {
+                console.log(response.data)
+                this.$router.push('result')
+            })
+            .catch(error => {
+                if (error.response) {
+                    console.log(error.response.data)
+                    console.log(error.response.status)
+                    console.log(error.response.headers)
+                    alert(error.response.data)
+                } else if (error.request) {
+                    console.log(error.request)
+                    alert("No response received from the server.")
+                } else {
+                    console.log('Error', error.message)
+                    alert("Error: " + error.message)
+                }
+            })
         }
     },
     watch: {

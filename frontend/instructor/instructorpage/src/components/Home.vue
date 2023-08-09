@@ -31,7 +31,7 @@
                      v-for="seminar in seminars"
                      :key="seminar.id"
                      :label="seminar.title"
-                     :value="seminar.id"
+                     :value="{id: seminar.id, name: seminar.title}"
                   />
                </el-select>
                <br>
@@ -76,7 +76,8 @@
             this.$router.push('login')
          },
          toGroup() {
-            this.store.selectedSeminarId = this.selectedSeminar
+            this.store.selectedSeminarId = this.selectedSeminar.id
+            this.store.selectedSeminarName = this.selectedSeminar.name
             this.$router.push('group')
          }     
       }

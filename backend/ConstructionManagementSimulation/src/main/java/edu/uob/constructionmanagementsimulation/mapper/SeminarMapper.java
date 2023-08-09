@@ -14,7 +14,7 @@ public interface SeminarMapper {
     @Options(useGeneratedKeys = true, keyProperty = "id")
     int insert(Seminar seminar);
 
-    @Update("UPDATE seminars SET title = #{title}, instructor_id = #{instructor_id} WHERE id = #{id}")
+    @Update("UPDATE seminars SET title = #{title}, instructor_id = #{instructor_id}, start = #{start}, scd = #{scd}, ls = #{ls}, sef = #{sef}, rc = #{rc} WHERE id = #{id}")
     int update(Seminar seminar);
 
     @Delete("DELETE FROM seminars WHERE id = #{id}")

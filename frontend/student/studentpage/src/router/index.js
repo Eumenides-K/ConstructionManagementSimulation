@@ -4,6 +4,7 @@ import Login from '@/components/Login.vue'
 import Intro from '@/components/Intro.vue'
 import Game from '@/components/Game.vue'
 import Result from '@/components/Result.vue'
+import Decision from '@/components/Decision.vue'
 
 import { store } from '@/store.js'
 
@@ -21,12 +22,19 @@ const routes = [
     {
         path: '/gameplay',
         name: 'Game',
-        component: Game
-    },
-    {
-        path: '/result',
-        name: 'Result',
-        component: Result
+        component: Game,
+        children: [
+            {
+                path: 'result',
+                name: 'Result',
+                component: Result
+            },
+            {
+                path: '',
+                name: 'Decision',
+                component: Decision
+            }
+        ]
     }
 ]
 

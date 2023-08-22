@@ -1,26 +1,26 @@
 <template>
     <h1 style="text-align: left; font-size: 24px;">
-        Decision for <span class="data">Week {{ this.store.week }}</span>
+        <el-icon><Operation /></el-icon> Decision for <span class="data">Week {{ this.store.week }}</span>
     </h1>
 
     <div class="warning" v-if="this.store.week === this.store.scd || this.store.week === this.store.rc">
         <p v-if="this.store.week === this.store.scd">
-            A supply chain disruption is currently taking place. The material cost this week can be increased.
+            <el-icon><Warning /></el-icon> A supply chain disruption is currently taking place. The material cost this week can be increased.
         </p>
         <p v-if="this.store.week === rc">
-            The goverment just made some regulatory changes. The material cost will be lowered from now on.
+            <el-icon><Warning /></el-icon> The goverment just made some regulatory changes. The material cost will be lowered from now on.
         </p>
     </div>
 
     <br v-if="this.store.week === this.store.scd || this.store.week === this.store.rc">
 
     <div class="material">
-        <h2 style="font-size: 18px">PURCHASING MATERIAL</h2>       
+        <h2 style="font-size: 18px"><el-icon><Shop /></el-icon> PURCHASING MATERIAL</h2>       
         <p>Currently <span class="data">{{ this.store.storage }}</span> units of material are in stock.</p>
         <p>The price of material per unit this week is <span class="data">£ {{ livePrice }}</span> and the shipment cost is <span class="data">£ {{ this.store.shipmentCost }}</span>.</p>
         <strong>Decide hom many units of construction material to purchase:</strong>
         <br><br>
-        <el-input-number v-model="materialNum" :min="0" :max=this.maxMaterial />   
+        <span><el-input-number v-model="materialNum" :min="0" :max="100" /><p v-if="isInvalidInput" style="color: red;">Please enter a valid number.</p></span>
         <br>       
         <p>Note that there is a storage Cost of <span class="data">£ {{ this.store.storageCost }}</span> per week.</p>
         <p style="color: red;">The maxium units of material can be this.store is <span class="data">{{ this.store.storageLimit }}</span>. If you have more than {{ this.store.storageLimit }} units left by the end of the week, the excess will be discarded.</p>
@@ -29,7 +29,7 @@
     <br>
 
     <div class="labour">
-        <h2 style="font-size: 18px;">EMPLOYING LABOUR</h2>
+        <h2 style="font-size: 18px;"><el-icon><Avatar /></el-icon> EMPLOYING LABOUR</h2>
         <strong>Decide your construction team size: </strong>
         <p>The labour cost per unit is <span class="data">£ {{ this.store.labourCost }}</span>. One unit of labour can only handle one unit of material each week.</p>
         <div class="number-input">
@@ -50,7 +50,7 @@
 
     <div class="result">
         <p v-if="this.store.budget - this.livePrice * this.materialNum - this.store.shipmentCost - this.value * this.store.labourCost > 0">
-            Your remaining budget is 
+            <el-icon><Grid /></el-icon> Your estimated remaining budget is 
             <span v-if="materialNum === 0" class="data">£ {{ this.store.budget - value * this.store.labourCost }}</span>
             <span v-else class="data">£ {{ this.store.budget - livePrice * materialNum - this.store.shipmentCost - value * this.store.labourCost }}</span>.
         </p>
@@ -74,7 +74,7 @@
                 </span>
                 </template>
             </el-dialog>
-            <el-button type="danger" size="large" :disabled="this.store.budget - livePrice * materialNum - this.store.shipmentCost - value * this.store.labourCost <= 0"  @click="dialog2Visible = true">
+            <el-button type="danger" size="large" :disabled="this.store.budget - livePrice * materialNum - value * this.store.labourCost < 0"  @click="dialog2Visible = true">
                 Deliver Project
             </el-button>
             <el-dialog
@@ -113,7 +113,8 @@ export default {
             materialNum: 0,
             value: 0,
             dialog1Visible: false,
-            dialog2Visible: false
+            dialog2Visible: false,
+            isInvalidInput: false
         }
     },
     created() {
@@ -129,125 +130,138 @@ export default {
             this.store.labourCost = 100000 + 2000 * (this.store.height - 50) / 50
         }
     },
+    watch: {
+        materialNum(newValue) {
+            if (typeof newValue !== 'number' || newValue < 0 || newValue > this.maxMaterial) {
+                this.isInvalidInput = true;
+            } else {
+                this.isInvalidInput = false;
+            }
+        },
+    },
     methods: {
-    increment() {
-      if (this.value < 10) {
-        this.value++;
-      }
-    },
-    decrement() {
-      if (this.value > 0) {
-        this.value--;
-      }
-    },
-    nextWeek() {
-        this.dialog1Visible = false
-        if (this.materialNum === 0) {
-            this.store.budget = this.store.budget - this.value * this.store.labourCost - this.store.storageCost
-        } else {
-            this.store.budget = this.store.budget - this.livePrice * this.materialNum - this.store.shipmentCost - this.value * this.store.labourCost - this.store.storageCost
+        increment() {
+        if (this.value < 10) {
+            this.value++;
         }
-
-        if (this.store.week === this.store.sef) {
-            this.store.budget = this.store.budget - 200000
+        },
+        decrement() {
+        if (this.value > 0) {
+            this.value--;
         }
-
-        if (this.store.week === this.store.ls || this.store.week === this.store.sef) {
-            if (this.materialNum + this.store.storage > this.store.storageLimit) {
-                this.store.storage = this.store.storageLimit
-                this.store.overStorage = true
-                this.store.unitsOver = this.materialNum + this.store.storage - this.store.storageLimit
+        },
+        nextWeek() {
+            this.dialog1Visible = false
+            if (this.materialNum === 0) {
+                this.store.budget = this.store.budget - this.value * this.store.labourCost - this.store.storageCost
             } else {
-                this.store.storage = this.store.storage + this.materialNum
-                this.store.overStorage = false
+                this.store.budget = this.store.budget - this.livePrice * this.materialNum - this.store.shipmentCost - this.value * this.store.labourCost - this.store.storageCost
             }
-        } else {
-            let material = this.store.storage + this.materialNum
-            if (material <= this.value) {
-                this.store.height = this.store.height + material
-                this.store.storage = 0
-                this.store.overStorage = false
-            } else {
-                this.store.height = this.store.height + this.value
-                if (material - this.value <= this.store.storageLimit) {
-                    this.store.storage = material - this.value
-                    this.store.overStorage = false
-                } else {
+
+            if (this.store.week === this.store.sef) {
+                this.store.budget = this.store.budget - 200000
+            }
+
+            if (this.store.budget < 0) {
+                this.store.budget = 0
+            }
+
+            if (this.store.week === this.store.ls || this.store.week === this.store.sef) {
+                if (this.materialNum + this.store.storage > this.store.storageLimit) {
                     this.store.storage = this.store.storageLimit
                     this.store.overStorage = true
-                    this.store.unitsOver = material - this.value - this.store.storageLimit
+                    this.store.unitsOver = this.materialNum + this.store.storage - this.store.storageLimit
+                } else {
+                    this.store.storage = this.store.storage + this.materialNum
+                    this.store.overStorage = false
                 }
-                
-            }
-        }
-        
-        this.store.progress.xAxis.data.push('week' + this.store.week.toString())
-        this.store.progress.series[0].data.push(this.store.height)
-
-
-        // renew data
-        this.store.week++
-        if (this.store.week === this.store.rc) {
-            this.store.price = 150000
-        }
-        this.livePrice = this.store.price + Math.floor(Math.random() * (20001)) - 10000
-        if (this.store.week === this.store.scd) {
-            this.livePrice = this.livePrice * 2
-        }
-        this.maxMaterial = Math.floor((this.store.budget - this.store.shipmentCost) / this.livePrice)
-        if (this.store.height > 50) {
-            this.store.labourCost = 100000 + 2000 * (this.store.height - 50) / 50
-        }
-        this.materialNum = 0
-        this.value = 0
-    },
-    deliver(){
-        this.dialog2Visible = false
-        if (this.materialNum === 0) {
-            this.store.budget = this.store.budget - this.value * this.store.labourCost - this.store.storageCost
-        } else {
-            this.store.budget = this.store.budget - this.livePrice * this.materialNum - this.store.shipmentCost - this.value * this.store.labourCost - this.store.storageCost
-        }
-
-        if (this.store.week === this.store.sef) {
-            this.store.budget = this.store.budget - 200000
-        }
-
-        if (this.store.week === this.store.ls || this.store.week === this.store.sef) {
-            if (this.materialNum + this.store.storage > this.store.storageLimit) {
-                this.store.storage = this.store.storageLimit
-                this.store.overStorage = true
-                this.store.unitsOver = this.materialNum + this.store.storage - this.store.storageLimit
             } else {
-                this.store.storage = this.store.storage + this.materialNum
-                this.store.overStorage = false
-            }
-        } else {
-            let material = this.store.storage + this.materialNum
-            if (material <= this.value) {
-                this.store.height = this.store.height + material
-                this.store.storage = 0
-                this.store.overStorage = false
-            } else {
-                this.store.height = this.store.height + this.value
-                if (material - this.value <= this.store.storageLimit) {
-                    this.store.storage = material - this.value
+                let material = this.store.storage + this.materialNum
+                if (material <= this.value) {
+                    this.store.height = this.store.height + material
+                    this.store.storage = 0
                     this.store.overStorage = false
                 } else {
+                    this.store.height = this.store.height + this.value
+                    if (material - this.value <= this.store.storageLimit) {
+                        this.store.storage = material - this.value
+                        this.store.overStorage = false
+                    } else {
+                        this.store.storage = this.store.storageLimit
+                        this.store.overStorage = true
+                        this.store.unitsOver = material - this.value - this.store.storageLimit
+                    }
+                    
+                }
+            }
+            
+            this.store.progress.xAxis.data.push('week' + this.store.week.toString())
+            this.store.progress.series[0].data.push(this.store.height)
+
+
+            // renew data
+            this.store.week++
+            if (this.store.week === this.store.rc) {
+                this.store.price = 150000
+            }
+            this.livePrice = this.store.price + Math.floor(Math.random() * (20001)) - 10000
+            if (this.store.week === this.store.scd) {
+                this.livePrice = this.livePrice * 2
+            }
+            this.maxMaterial = Math.floor((this.store.budget - this.store.shipmentCost) / this.livePrice)
+            if (this.store.height > 50) {
+                this.store.labourCost = 100000 + 2000 * (this.store.height - 50) / 50
+            }
+            this.materialNum = 0
+            this.value = 0
+        },
+        deliver() {
+            this.dialog2Visible = false
+            if (this.materialNum === 0) {
+                this.store.budget = this.store.budget - this.value * this.store.labourCost
+            } else {
+                this.store.budget = this.store.budget - this.livePrice * this.materialNum - this.store.shipmentCost - this.value * this.store.labourCost
+            }
+
+            if (this.store.week === this.store.sef) {
+                this.store.budget = this.store.budget - 200000
+            }
+
+            if (this.store.week === this.store.ls || this.store.week === this.store.sef) {
+                if (this.materialNum + this.store.storage > this.store.storageLimit) {
                     this.store.storage = this.store.storageLimit
                     this.store.overStorage = true
-                    this.store.unitsOver = material - this.value - this.store.storageLimit
+                    this.store.unitsOver = this.materialNum + this.store.storage - this.store.storageLimit
+                } else {
+                    this.store.storage = this.store.storage + this.materialNum
+                    this.store.overStorage = false
                 }
-                
+            } else {
+                let material = this.store.storage + this.materialNum
+                if (material <= this.value) {
+                    this.store.height = this.store.height + material
+                    this.store.storage = 0
+                    this.store.overStorage = false
+                } else {
+                    this.store.height = this.store.height + this.value
+                    if (material - this.value <= this.store.storageLimit) {
+                        this.store.storage = material - this.value
+                        this.store.overStorage = false
+                    } else {
+                        this.store.storage = this.store.storageLimit
+                        this.store.overStorage = true
+                        this.store.unitsOver = material - this.value - this.store.storageLimit
+                    }
+                    
+                }
             }
-        }
-        
-        this.store.progress.xAxis.data.push('week' + this.store.week.toString())
-        this.store.progress.series[0].data.push(this.store.height)
+            
+            this.store.progress.xAxis.data.push('week' + this.store.week.toString())
+            this.store.progress.series[0].data.push(this.store.height)
 
-        this.$router.push('/result')
-    },
-  }
+            this.$router.push({ name: 'Result' });
+        },
+    }
 }
 </script>
 

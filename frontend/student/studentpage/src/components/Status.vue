@@ -1,9 +1,9 @@
 <template>
-<el-tabs v-model="activeTab" style="text-align: left; width: 90%">
+<el-tabs v-model="activeTab" style="text-align: left; width: 100%;">
     <el-tab-pane label="Instruction" name="tab1" :lazy=true>
         <Tab />
     </el-tab-pane>
-    <el-tab-pane label="Dashboard" name="tab2" :lazy=true>
+    <el-tab-pane label="Dashboard" name="tab2" :lazy=true style="width:95%;">
         <h1 style="text-align: left; font-size: 24px;"><el-icon><Odometer /></el-icon> Dashboard for <span class="data">Week {{ store.week }}</span></h1>
         <div class="warning">
             <h2 style="font-size: 18px;"><el-icon><Warning /></el-icon> Alerts</h2>
@@ -55,11 +55,14 @@
             </div>
         </div>
 
+        <br>
+
         <div class="br">
             <h2 style="font-size: 18px"><el-icon><Money /></el-icon> Budget and Resources</h2>
             <p>Material in storage: <span class="data">{{ this.store.storage }} units</span></p>
             <p>Remaining budget: <span class="data">£ {{ this.store.budget }}</span></p>
         </div>
+
     </el-tab-pane>
 </el-tabs>
 </template>
@@ -131,7 +134,8 @@ export default {
 }
 
 .chart-container {
-  height:38.2vh;
+  height:30vh;
   width: 38.2vw;
 }
+
 </style>

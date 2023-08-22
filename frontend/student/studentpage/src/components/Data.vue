@@ -28,10 +28,10 @@
         <h1>Storage Cost: £ 120,000 per week</h1>
       </li>
       <li>
-      <h1>Shipping Cost:£ £ 150,000 per shipment</h1> 
+      <h1>Shipping Cost: £ 150,000 per shipment</h1> 
       </li>
       <li>
-        <h1>Planning Cost： TBD</h1>
+        <h1>Planning Cost: TBD</h1>
       </li>
       <li>
         <h1>Evaluation Methods: TBD</h1>  

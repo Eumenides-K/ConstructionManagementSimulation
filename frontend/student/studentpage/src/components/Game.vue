@@ -17,13 +17,13 @@
         clickMode="push"
         class="particle"
     />
-    <el-container style="display: flex; height: 100vh;" class="gameContainer">
+    <el-container class="gameContainer">
         <el-aside style="flex: 1; display: flex; flex-direction: column; padding-left: 20px; background-color: #f0f0f0; box-shadow: 2px 0px 6px 0px rgba(0,0,0,0.1);">
             <Status />
         </el-aside>
 
         <el-main style="flex: 1; background-color: #ffffff; box-shadow: -2px 0px 6px 0px rgba(0,0,0,0.1); font-family: 'Roboto'">
-            <Decision />
+            <router-view />
         </el-main>
     </el-container>
 </template>
@@ -69,5 +69,7 @@ export default {
 .gameContainer {
     position: relative;
     z-index: 2;
+    display: flex;
+    height: 100vh;
 }
 </style>

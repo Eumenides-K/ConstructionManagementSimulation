@@ -3,6 +3,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import Login from '@/components/Login.vue'
 import Intro from '@/components/Intro.vue'
 import Game from '@/components/Game.vue'
+import Result from '@/components/Result.vue'
 
 import { store } from '@/store.js'
 
@@ -19,8 +20,13 @@ const routes = [
     },
     {
         path: '/gameplay',
-        nmae: 'Game',
+        name: 'Game',
         component: Game
+    },
+    {
+        path: '/result',
+        name: 'Result',
+        component: Result
     }
 ]
 

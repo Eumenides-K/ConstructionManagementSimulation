@@ -8,7 +8,7 @@
         <li>Supply Chain Disruptions: increase the price of construction materials in short term</li>
         <li>Labour Strike: delay the schedule of construction</li>
         <li>Sudden Equipment Failure: delay the progress of construction and cost a maintenance fee</li>
-        <li>Regulatory Changes: increase the price of construction materials in long term</li>
+        <li>Regulatory Changes: lower the price of construction materials in long term</li>
     </ul>
     * Note that one kind of event above can only happen ONCE during a game. Adding 3 unaticipated events in total in a single game is recommended, but you can also choose to add less or more.
     Considering some of smart students can complete the project using less than 10 weeks (so that they can spend less on storage costs), so try to add events in earlier weeks. 

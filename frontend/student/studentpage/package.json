@@ -10,8 +10,10 @@
     "@element-plus/icons-vue": "^2.1.0",
     "axios": "^1.4.0",
     "core-js": "^3.8.3",
+    "echarts": "^5.4.3",
     "element-plus": "^2.3.9",
     "vue": "^3.2.13",
+    "vue-echarts": "^6.6.1",
     "vue-particles": "^1.0.9",
     "vue-router": "^4.2.4"
   },

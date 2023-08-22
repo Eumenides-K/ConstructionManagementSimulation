@@ -24,6 +24,11 @@ public class StudyGroupController {
         return studyGroupMapper.findById(id);
     }
 
+    @GetMapping("/seminarid/{id}")
+    public Integer findSeminarIdById(@PathVariable("id") Integer id) {
+        return studyGroupMapper.findById(id).getSeminar_id();
+    }
+
     @PostMapping
     public void insert(@RequestBody StudyGroup studyGroup) {
         studyGroupMapper.insert(studyGroup);

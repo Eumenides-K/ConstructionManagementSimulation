@@ -9,12 +9,16 @@ public class StudyGroup {
     private String name;
     private String password_hash;
     private Integer seminar_id;
+    private Integer height;
+    private Integer expenditure;
 
     public StudyGroup(Integer id, String name, String password_hash, Integer seminar_id) {
         this.id = id;
         this.name = name;
         this.password_hash = password_hash;
         this.seminar_id = seminar_id;
+        this.height = 0;
+        this.expenditure = 0;
     }
 }
 

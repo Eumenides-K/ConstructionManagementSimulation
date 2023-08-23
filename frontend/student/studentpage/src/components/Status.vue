@@ -45,7 +45,7 @@
         <br>
 
         <div class="pp">
-            <h2 style="font-size: 18px;"><el-icon><Finished /></el-icon> Project Progress</h2>
+            <h2 style="font-size: 18px;"><el-icon><TrendCharts /></el-icon> Project Progress</h2>
             <p>Building height: <span class="data">{{ store.height }}m</span></p>
             <div v-if="store.height > 0">
                 <p>Project progress:</p>

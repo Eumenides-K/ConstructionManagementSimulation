@@ -1,5 +1,6 @@
 <template>
-<h1 style="color: #333; font-size: 1.618vm; font-weight: 500; font-family: 'Roboto', sans-serif; text-shadow: 4px 4px 10px #222222">Scenario Settings</h1>
+<div v-if="store.gameStart === false">
+<h1 style="color: #333; font-size: 1.618vm; font-weight: 500; font-family: 'Roboto', sans-serif; text-shadow: 4px 4px 10px #222222"><el-icon><Operation /></el-icon> Scenario Settings</h1>
 <p class="tips">
     You can choose the default scenario setting or customnize your own settings. There are 10 weeks in one game run. 
     Add some unaticipated events in some of weeks to test students' ability to cope with unexpected situation in project management.
@@ -10,9 +11,9 @@
         <li>Sudden Equipment Failure: delay the progress of construction and cost a maintenance fee</li>
         <li>Regulatory Changes: lower the price of construction materials in long term</li>
     </ul>
-    * Note that one kind of event above can only happen ONCE during a game. Adding 3 unaticipated events in total in a single game is recommended, but you can also choose to add less or more.
+    * Note that one kind of event above can only happen ONCE during a game.
     Considering some of smart students can complete the project using less than 10 weeks (so that they can spend less on storage costs), so try to add events in earlier weeks. 
-    And usually it is pointless to set multiple events in one same week although you can do it.
+    And usually it is pointless to set multiple events in one same week and it can lead to contradiction although you can do it.
 </p>
 <div class="radio">
     <el-radio-group v-model="defaultSettings">
@@ -79,23 +80,30 @@
     <p v-if="scd == 0 && ls == 0 && sef == 0 && rc == 0">No unaticipated events is set.</p>
 </div>
 <br>
-<el-button type="primary" round @click="dialogVisible = true">Start the game</el-button>
+<el-button type="primary" round @click="dialog1Visible = true">Start the game</el-button>
 <el-dialog
-    v-model="dialogVisible"
+    v-model="dialog1Visible"
     title="Warning"
     width="30%">    
     <span>Are you sure you want to start a new game run? You cannot modify the scenario settings after the game starts.</span>
     <template #footer>
         <span class="dialog-footer">
-            <el-button @click="dialogVisible = false">Cancel</el-button>
+            <el-button @click="dialog1Visible = false">Cancel</el-button>
             <el-button type="primary" @click="startGame" style="font-family: 'Roboto'">Confirm</el-button>
         </span>
     </template>
 </el-dialog>
+</div>
+
+<div v-else>
+    <Result />
+</div>
 </template>
 
 <script>
 import { store } from '@/store.js'
+import Result from './Result.vue'
+
 export default {
     data() { 
         return {
@@ -103,7 +111,7 @@ export default {
             scd: 2,
             ls: 4,
             sef: 7,
-            rc: 0,
+            rc: 5,
             weeks: [
                 { label: 'None', value: 0 },
                 { label: '1', value: 1 },
@@ -117,12 +125,16 @@ export default {
                 { label: '9', value: 9 },
                 { label: '10', value: 10 }
             ],
-            dialogVisible: false,
+            dialog1Visible: false,
             store
         }
     },
+    components: {
+        Result
+    },
     methods: {
         startGame() {
+            this.dialog1Visible = false
             const data = {
                 id: this.store.selectedSeminarId,
                 title: this.store.selectedSeminarName,
@@ -137,7 +149,11 @@ export default {
             this.$axios.put('/seminars', data).
             then(response => {
                 console.log(response.data)
-                this.$router.push('result')
+                this.store.gameStart = true
+                this.store.scd = this.scd
+                this.store.ls = this.ls
+                this.store.sef = this.sef
+                this.store.rc = this.rc
             })
             .catch(error => {
                 if (error.response) {
@@ -161,7 +177,7 @@ export default {
                 this.scd = 2
                 this.ls = 4
                 this.sef = 7
-                this.rc = 0
+                this.rc = 5
             } else {
                 this.scd = 0
                 this.ls = 0

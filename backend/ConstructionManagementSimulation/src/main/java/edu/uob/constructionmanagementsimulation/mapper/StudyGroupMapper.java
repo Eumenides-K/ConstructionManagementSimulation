@@ -10,12 +10,15 @@ public interface StudyGroupMapper {
     @Select("SELECT * FROM studygroups WHERE id = #{id}")
     StudyGroup findById(@Param("id") Integer id);
 
-    @Insert("INSERT INTO studygroups(name, password_hash, seminar_id) VALUES(#{name}, #{password_hash}, #{seminar_id})")
+    @Insert("INSERT INTO studygroups(name, password_hash, seminar_id, height, expenditure) VALUES(#{name}, #{password_hash}, #{seminar_id}, #{height}, #{expenditure})")
     @Options(useGeneratedKeys = true, keyProperty = "id")
     int insert(StudyGroup studyGroup);
 
     @Update("UPDATE studygroups SET name = #{name}, password_hash = #{password_hash}, seminar_id = #{seminar_id} WHERE id = #{id}")
     int update(StudyGroup studyGroup);
+
+    @Update("UPDATE studygroups SET height = #{height}, expenditure = #{expenditure}")
+    int updateResult(@Param("height") Integer height, @Param("expenditure") Integer expenditure);
 
     @Delete("DELETE FROM studygroups WHERE id = #{id}")
     int delete(@Param("id") Integer id);

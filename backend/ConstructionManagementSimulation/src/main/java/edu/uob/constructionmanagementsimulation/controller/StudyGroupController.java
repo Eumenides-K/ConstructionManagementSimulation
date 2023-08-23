@@ -34,9 +34,14 @@ public class StudyGroupController {
         studyGroupMapper.insert(studyGroup);
     }
 
-    @PutMapping
-    public void update(@RequestBody StudyGroup studyGroup) {
-        studyGroupMapper.update(studyGroup);
+//    @PutMapping
+//    public void update(@RequestBody StudyGroup studyGroup) {
+//        studyGroupMapper.update(studyGroup);
+//    }
+
+    @PutMapping("/result/{height}/{expenditure}")
+    public void update(@PathVariable("height") Integer height, @PathVariable("expenditure") Integer expenditure) {
+        studyGroupMapper.updateResult(height, expenditure);
     }
 
     @DeleteMapping

@@ -5,7 +5,7 @@ import Registration from '@/components/Registration.vue'
 import Home from '@/components/Home.vue'
 import CreateSeminar from '@/components/CreateSeminar.vue'
 import Group from '@/components/Group.vue'
-import Result from '@/components/Result.vue'
+
 
 import { store } from '@/store.js'
 
@@ -36,11 +36,6 @@ const routes = [
     name: 'Group',
     component: Group
   },
-  {
-    path: '/result',
-    name: 'Result',
-    component: Result
-  }
 ]
 
 const router = createRouter({

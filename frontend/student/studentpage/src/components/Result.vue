@@ -3,7 +3,7 @@
             <h1 style="font-size: 24px;"><el-icon><Crop /></el-icon> Your final result</h1>
 
             <p><el-icon><OfficeBuilding /></el-icon> Building height: <span class="data">{{ store.height }}m</span></p>
-            <p><el-icon><DataBoard /></el-icon> Project progress:</p>
+            <p><el-icon><TrendCharts /></el-icon> Project progress:</p>
             <div class="chart-container">
                 <v-chart :option="store.progress" autoresize />
             </div>

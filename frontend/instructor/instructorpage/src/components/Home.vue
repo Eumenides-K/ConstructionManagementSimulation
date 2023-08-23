@@ -19,19 +19,19 @@
    />
    <el-container direction="vertical" class="seminarChoiceContainer">
       <div class="seminarChoice">
-         <h1 style="color: #333; font-size: 1.618vm; font-weight: 500; font-family: 'Roboto', sans-serif; text-shadow: 4px 4px 10px #222222">Welcome, {{ this.store.signedEmail }}</h1>
+         <h1 style="color: #333; font-size: 1.618vm; font-weight: 500; font-family: 'Roboto', sans-serif; text-shadow: 4px 4px 10px #222222"><el-icon><Menu /></el-icon> Welcome, {{ this.store.signedEmail }}</h1>
          <el-link type="primary" style="position: absolute; top: 10px; right: 10px; cursor: pointer;" @click="logout"><el-icon><SwitchButton /></el-icon>Logout</el-link>
          <div v-if="seminars.length === 0">
-            <p style="font-family: 'Roboto'">You have not created any seminars yet. Please create one.</p>
+            <p style="font-family: 'Roboto'"><el-icon><Warning /></el-icon> You have not created any seminars yet. Please create one.</p>
          </div>
          <div v-else>
-            <p>Please select a seminar:</p>
+            <p><el-icon><Pointer /></el-icon> Please select a seminar:</p>
                <el-select v-model="selectedSeminar" class="m-2" placeholder="Select a seminar" size="large">
                   <el-option
                      v-for="seminar in seminars"
                      :key="seminar.id"
                      :label="seminar.title"
-                     :value="{id: seminar.id, name: seminar.title}"
+                     :value="seminar.id"
                   />
                </el-select>
                <br>
@@ -76,8 +76,19 @@
             this.$router.push('login')
          },
          toGroup() {
-            this.store.selectedSeminarId = this.selectedSeminar.id
-            this.store.selectedSeminarName = this.selectedSeminar.name
+            this.store.selectedSeminarId = this.selectedSeminar
+            let id = this.store.selectedSeminarId
+            this.$axios.get(`/seminars/${id}`)
+            .then(response => {
+               this.store.scd = response.data.scd
+               this.store.ls = response.data.ls
+               this.store.sef = response.data.sef
+               this.store.rc = response.data.rc
+               this.store.gameStart = response.data.start
+            })
+            .catch(error => {
+               console.log(error)
+            })
             this.$router.push('group')
          }     
       }

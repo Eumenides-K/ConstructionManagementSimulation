@@ -1,5 +1,5 @@
 <template>
-    <h1 style="color: #333; font-size: 1.618vm; font-weight: 500; font-family: 'Roboto', sans-serif; text-shadow: 4px 4px 10px #222222">Groups Detail</h1>
+    <h1 style="color: #333; font-size: 1.618vm; font-weight: 500; font-family: 'Roboto', sans-serif; text-shadow: 4px 4px 10px #222222"><el-icon><List /></el-icon> Groups Detail</h1>
   <el-table :data="groupData" :default-sort="{ prop: 'name', order: 'descending' }" stripe border style="width: 95%" id="table">
     <el-table-column prop="name" label="Name"/>
     <el-table-column prop="id" label="Group ID"/> 

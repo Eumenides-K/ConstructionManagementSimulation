@@ -95,9 +95,15 @@
             </el-dialog>
         </div>   
     </div>
-    <div v-if="this.store.budget - livePrice * materialNum - this.store.shipmentCost - value * this.store.labourCost <= 0">
+    <div v-if="
+    (materialNum !== 0 &&
+    this.store.budget - livePrice * materialNum - this.store.shipmentCost - value * this.store.labourCost < 0) ||
+    (materialNum === 0 && this.store.budget - value * this.store.labourCost < 0)
+    ">
         <br>
-        <strong style="text-align: right; color: red;">Your budget is not enough!</strong>
+        <strong style="text-align: right; color: red;">
+            Your budget is not enough!
+        </strong>
     </div>
 </template>
 
@@ -132,7 +138,7 @@ export default {
     },
     watch: {
         materialNum(newValue) {
-            if (typeof newValue !== 'number' || newValue < 0 || newValue > this.maxMaterial) {
+            if (typeof newValue !== 'number' || newValue < 0) {
                 this.isInvalidInput = true;
             } else {
                 this.isInvalidInput = false;

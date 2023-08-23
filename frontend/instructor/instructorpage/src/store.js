@@ -5,5 +5,6 @@ export const store = reactive({
     signedEmail: '',
     signedId: 0,
     selectedSeminarId: 0,
-    selectedSeminarName: ''
+    selectedSeminarName: '',
+    gameStart: false
 })

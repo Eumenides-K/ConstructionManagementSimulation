@@ -1,5 +1,5 @@
 <template>
-<el-tabs v-model="activeTab" style="text-align: left; width: 100%;">
+<el-tabs v-model="activeTab" style="text-align: left; width: 100%;     overflow: visible;">
     <el-tab-pane label="Instruction" name="tab1" :lazy=true>
         <Tab />
     </el-tab-pane>
@@ -37,7 +37,7 @@
                     The goverment just made some regulatory changes. The material cost will be lowered from now on.
                 </li>
                 <li v-if="store.overStorage === true">
-                    The warehouse capacity has reached its limit, and <span class="data">{{ store.unitsOver }} units</span> of excess building materials have been discarded.
+                    The warehouse capacity has reached its limit, and the excess <span class="data">{{ store.unitsOver }} units</span> of excess building materials cost <span class="data">£ {{ store.storageOver * store.storageCost }}</span> to store.
                 </li>
             </ul>
         </div>
@@ -60,7 +60,25 @@
         <div class="br">
             <h2 style="font-size: 18px"><el-icon><Money /></el-icon> Budget and Resources</h2>
             <p>Material in storage: <span class="data">{{ this.store.storage }} units</span></p>
-            <p>Remaining budget: <span class="data">£ {{ this.store.budget }}</span></p>
+            <p v-if="this.store.week === 1">Remaining budget: <span class="data">£ {{ this.store.budget }}</span></p>
+            <p v-else>
+                Remaining budget:
+                <br>
+                <div class="cal">
+                    <p>£ {{ store.budgetBefore }}</p>
+                    <p v-if="store.materialPurchased !== 0">  - {{ store.materialPurchased }} * £ {{ store.materialCost }} (material cost)</p>
+                    <p v-if="store.materialPurchased !== 0">  - £ {{ store.shipmentCost }} (shipment cost)</p>
+                    <p v-if="store.labourHired !== 0">  - {{ store.labourHired }} * £ {{ store.labourCost }} (labour cost)</p>
+                    <p>  - £ {{ store.storageCost }} (storage cost)</p>
+                    <p v-if="store.overStorage === true">  - £ {{ store.storageCost * store.storageOver }} (extra storage cost)</p>
+                    <p v-if="store.week - 1 !== 0 && store.week - 1 === store.sef">  - £ 200000 (equipment maintenance)</p>
+                    <p>
+                          = 
+                        <span v-if="store.budget !== 0">£ {{ store.budget }}</span>
+                        <span v-else style="color: red;">£ {{ store.budget }}</span>
+                    </p>
+                </div>
+            </p>
         </div>
 
     </el-tab-pane>
@@ -105,6 +123,11 @@ export default {
 <style scoped>
 .data {
     color:#0527af
+}
+
+.cal {
+    color:#0527af;
+    font-size: small;
 }
 .warning {
     background-color: pink;

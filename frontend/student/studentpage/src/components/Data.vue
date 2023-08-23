@@ -25,7 +25,7 @@
         </div>
       </li>
       <li>
-        <h1>Storage Cost: £ 120,000 per week</h1>
+        <h1>Storage Cost: £ 150,000 per week for every ten units of material</h1>
       </li>
       <li>
       <h1>Shipping Cost: £ 150,000 per shipment</h1> 

@@ -22,8 +22,8 @@
         <br><br>
         <span><el-input-number v-model="materialNum" :min="0" :max="100" /><p v-if="isInvalidInput" style="color: red;">Please enter a valid number.</p></span>
         <br>       
-        <p>Note that there is a storage Cost of <span class="data">£ {{ this.store.storageCost }}</span> per week.</p>
-        <p style="color: red;">The maxium units of material can be this.store is <span class="data">{{ this.store.storageLimit }}</span>. If you have more than {{ this.store.storageLimit }} units left by the end of the week, the excess will be discarded.</p>
+        <p>Note that there is always a storage Cost of at least <span class="data">£ {{ this.store.storageCost }}</span> per week for every ten surplus units of material.</p>
+        <p style="color: red;">The maxium units of material can be stored is <span class="data">{{ this.store.storageLimit }}</span>. If you have more than {{ this.store.storageLimit }} units left by the end of the week, the excess will be discarded.</p>
     </div>
 
     <br>
@@ -108,7 +108,7 @@ export default {
     data() {
         return {
             store,
-            livePrice: 150000,
+            livePrice: 200000,
             maxMaterial: 100,
             materialNum: 0,
             value: 0,
@@ -152,6 +152,13 @@ export default {
         },
         nextWeek() {
             this.dialog1Visible = false
+
+            this.store.budgetBefore = this.store.budget
+
+            if (this.store.height > 50) {
+                this.store.labourCost = 100000 + 2000 * (this.store.height - 50) / 50
+            }
+
             if (this.materialNum === 0) {
                 this.store.budget = this.store.budget - this.value * this.store.labourCost - this.store.storageCost
             } else {
@@ -162,15 +169,16 @@ export default {
                 this.store.budget = this.store.budget - 200000
             }
 
-            if (this.store.budget < 0) {
-                this.store.budget = 0
-            }
-
             if (this.store.week === this.store.ls || this.store.week === this.store.sef) {
                 if (this.materialNum + this.store.storage > this.store.storageLimit) {
-                    this.store.storage = this.store.storageLimit
+                    this.store.storage = this.materialNum + this.store.storage
                     this.store.overStorage = true
                     this.store.unitsOver = this.materialNum + this.store.storage - this.store.storageLimit
+                    if (this.store.unitsOver % this.store.storageLimit === 0) {
+                        this.store.storageOver = this.store.unitsOver / this.store.storageLimit
+                    } else {
+                        this.store.storageOver = Math.floor(this.store.unitsOver / this.store.storageLimit) + 1
+                    }
                 } else {
                     this.store.storage = this.store.storage + this.materialNum
                     this.store.overStorage = false
@@ -187,17 +195,28 @@ export default {
                         this.store.storage = material - this.value
                         this.store.overStorage = false
                     } else {
-                        this.store.storage = this.store.storageLimit
+                        this.store.storage = material - this.value
                         this.store.overStorage = true
                         this.store.unitsOver = material - this.value - this.store.storageLimit
+                        if (this.store.unitsOver % this.store.storageLimit === 0) {
+                            this.store.storageOver = this.store.unitsOver / this.store.storageLimit
+                        } else {
+                            this.store.storageOver = Math.floor(this.store.unitsOver / this.store.storageLimit) + 1
+                        }
                     }
-                    
                 }
+            }
+
+            this.store.budget = this.store.budget - this.store.storageCost * this.store.storageOver
+            if (this.store.budget < 0) {
+                this.store.budget = 0
             }
             
             this.store.progress.xAxis.data.push('week' + this.store.week.toString())
             this.store.progress.series[0].data.push(this.store.height)
-
+            this.store.materialPurchased = this.materialNum
+            this.store.materialCost = this.livePrice
+            this.store.labourHired = this.value
 
             // renew data
             this.store.week++
@@ -216,11 +235,16 @@ export default {
             this.value = 0
         },
         deliver() {
-            this.dialog2Visible = false
+            this.store.budgetBefore = this.store.budget
+
+            if (this.store.height > 50) {
+                this.store.labourCost = 100000 + 2000 * (this.store.height - 50) / 50
+            }
+
             if (this.materialNum === 0) {
-                this.store.budget = this.store.budget - this.value * this.store.labourCost
+                this.store.budget = this.store.budget - this.value * this.store.labourCost - this.store.storageCost
             } else {
-                this.store.budget = this.store.budget - this.livePrice * this.materialNum - this.store.shipmentCost - this.value * this.store.labourCost
+                this.store.budget = this.store.budget - this.livePrice * this.materialNum - this.store.shipmentCost - this.value * this.store.labourCost - this.store.storageCost
             }
 
             if (this.store.week === this.store.sef) {
@@ -229,9 +253,14 @@ export default {
 
             if (this.store.week === this.store.ls || this.store.week === this.store.sef) {
                 if (this.materialNum + this.store.storage > this.store.storageLimit) {
-                    this.store.storage = this.store.storageLimit
+                    this.store.storage = this.materialNum + this.store.storage
                     this.store.overStorage = true
                     this.store.unitsOver = this.materialNum + this.store.storage - this.store.storageLimit
+                    if (this.store.unitsOver % this.store.storageLimit === 0) {
+                        this.store.storageOver = this.store.unitsOver / this.store.storageLimit - 1
+                    } else {
+                        this.store.storageOver = this.store.unitsOver / this.store.storageLimit
+                    }
                 } else {
                     this.store.storage = this.store.storage + this.materialNum
                     this.store.overStorage = false
@@ -248,16 +277,28 @@ export default {
                         this.store.storage = material - this.value
                         this.store.overStorage = false
                     } else {
-                        this.store.storage = this.store.storageLimit
+                        this.store.storage = material - this.value
                         this.store.overStorage = true
                         this.store.unitsOver = material - this.value - this.store.storageLimit
+                        if (this.store.unitsOver % this.store.storageLimit === 0) {
+                            this.store.storageOver = this.store.unitsOver / this.store.storageLimit - 1
+                        } else {
+                            this.store.storageOver = this.store.unitsOver / this.store.storageLimit
+                        }
                     }
-                    
                 }
             }
-            
+
+            this.store.budget = this.store.budget - this.store.storageCost * this.store.storageOver
+            if (this.store.budget < 0) {
+                this.store.budget = 0
+            }
+
             this.store.progress.xAxis.data.push('week' + this.store.week.toString())
             this.store.progress.series[0].data.push(this.store.height)
+            this.store.materialPurchased = this.materialNum
+            this.store.materialCost = this.livePrice
+            this.store.labourHired = this.value
 
             this.$router.push({ name: 'Result' });
         },

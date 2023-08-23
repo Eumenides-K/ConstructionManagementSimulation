@@ -27,11 +27,28 @@
       <el-main style="flex: 0.618; background-color: #ffffff; box-shadow: -2px 0px 6px 0px rgba(0,0,0,0.1); font-family: 'Roboto'">
         <h1>Ready to start?</h1>
         <br>
-        <el-button type="primary" size="large" style="width: 61.8%;">View Tutorial</el-button>
+        <el-button type="primary" size="large" style="width: 61.8%;" @click="dialogVisible = true">View Tutorial</el-button>
+
+        <el-dialog
+                v-model="dialogVisible"
+                title="Tutorial"
+                width="61.8%"
+                height=auto
+            >
+                <p style="text-align: left; font-size: medium;">Make your management decision every week as follows: </p>
+                <img :src="imagePath" style="width: 61.8%; height: auto;">
+                <p style="text-align: left; font-size: medium;">Also keep checking your progress and alerts in the left-hand side.</p>
+                <p style="text-align: left; font-size: medium;">Read the "Prepare to play" part carefully before start the game.</p>
+                <template #footer>
+                <span class="dialog-footer">
+                    <el-button @click="dialogVisible = false">Close</el-button>
+                </span>
+                </template>
+            </el-dialog>
+
         <br>
         <br>
         <el-button size="large" style="width: 61.8%;" @click="startGame">Play Now</el-button>
-        
         <br><br>
         <el-link type="primary" @click="logout">Log out</el-link>
     </el-main>
@@ -46,10 +63,10 @@ import Tab from './Tab.vue'
 export default {
     data() {
         return {
-            imagePath1: require('@/assets/building-sites-icon.png'),
-            imagePath2: require('@/assets/mgt-icon.png'),
+            imagePath: require('@/assets/tutorial.jpg'),
             store,
-            activeTab: 'tab1'
+            activeTab: 'tab1',
+            dialogVisible: false
         }
     },
     components: {

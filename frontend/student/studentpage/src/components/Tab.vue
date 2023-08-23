@@ -23,9 +23,8 @@
                     Each week you can order unlimited amounts of construction material as long as your budget can afford. No matter how much you order, there is always a fixed shipping cost.
                     <br><br>
                     Notice that even the largest-size construction team you can employ can only use a certain amount of material in a week.
-                    The remaining material needs to be stored so there is a fixed storage cost for the surplus material each week. 
-                    <br><br>
-                    However, the amount of material that can be stored is limited and the excess will be wasted.
+                    The remaining material needs to be stored so there is a fixed storage cost for the a certain amount of surplus material each week.
+                    There is always a storage cost each week, but if your surplus material excess the storage limit, you will be charged for more storage cost.  
                     Try to complete the project as soon as possible to save on storage cost.
                     <br><br>
                     The labor cost will increase with the height of the building.

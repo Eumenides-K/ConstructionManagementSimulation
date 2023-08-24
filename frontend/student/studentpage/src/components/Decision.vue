@@ -147,14 +147,14 @@ export default {
     },
     methods: {
         increment() {
-        if (this.value < 10) {
-            this.value++;
-        }
+            if (this.value < 10) {
+                this.value++;
+            }
         },
         decrement() {
-        if (this.value > 0) {
-            this.value--;
-        }
+            if (this.value > 0) {
+                this.value--;
+            }
         },
         nextWeek() {
             this.dialog1Visible = false
@@ -300,7 +300,7 @@ export default {
                 this.store.budget = 0
             }
 
-            this.store.progress.xAxis.data.push('week' + this.store.week.toString())
+            this.store.progress.xAxis.data.push('W' + this.store.week.toString())
             this.store.progress.series[0].data.push(this.store.height)
             this.store.materialPurchased = this.materialNum
             this.store.materialCost = this.livePrice

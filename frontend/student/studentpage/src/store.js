@@ -24,6 +24,7 @@ export const store = reactive({
     materialPurchased: 0,
     materialCost: 200000,
     labourHired: 0,
+    plan: [],
     progress: {
         title: {
             show: true,

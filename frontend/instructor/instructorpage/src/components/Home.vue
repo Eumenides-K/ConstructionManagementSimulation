@@ -85,6 +85,7 @@
                this.store.sef = response.data.sef
                this.store.rc = response.data.rc
                this.store.gameStart = response.data.start
+               this.store.selectedSeminarName = response.data.title
             })
             .catch(error => {
                console.log(error)

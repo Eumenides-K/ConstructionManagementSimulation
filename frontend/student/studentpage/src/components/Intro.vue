@@ -27,10 +27,10 @@
       <el-main style="flex: 0.618; background-color: #ffffff; box-shadow: -2px 0px 6px 0px rgba(0,0,0,0.1); font-family: 'Roboto'">
         <h1>Ready to start?</h1>
         <br>
-        <el-button type="primary" size="large" style="width: 61.8%;" @click="dialogVisible = true">View Tutorial</el-button>
+        <el-button type="primary" size="large" style="width: 61.8%;" @click="dialog1Visible = true">View Tutorial</el-button>
 
         <el-dialog
-                v-model="dialogVisible"
+                v-model="dialog1Visible"
                 title="Tutorial"
                 width="61.8%"
                 height=auto
@@ -41,14 +41,29 @@
                 <p style="text-align: left; font-size: medium;">Read the "Prepare to play" part carefully before start the game.</p>
                 <template #footer>
                 <span class="dialog-footer">
-                    <el-button @click="dialogVisible = false">Close</el-button>
+                    <el-button @click="dialog1Visible = false">Close</el-button>
                 </span>
                 </template>
             </el-dialog>
 
         <br>
         <br>
+        <!-- <el-button size="large" style="width: 61.8%;" @click="dialog2Visible">Play Now</el-button> -->
         <el-button size="large" style="width: 61.8%;" @click="startGame">Play Now</el-button>
+        <el-dialog
+                v-model="dialog2Visible"
+                title="Plan"
+                width="61.8%"
+                height=auto
+            >
+            <Plan />
+                <template #footer>
+                <span class="dialog-footer">
+                    <el-button @click="dialog2Visible = false">Back</el-button>
+                </span>
+                </template>
+            </el-dialog>
+        
         <br><br>
         <el-link type="primary" @click="logout">Log out</el-link>
     </el-main>
@@ -59,6 +74,7 @@
 <script>
 import { store } from '@/store.js'
 import Tab from './Tab.vue'
+import Plan from './Plan.vue'
 
 export default {
     data() {
@@ -66,11 +82,14 @@ export default {
             imagePath: require('@/assets/tutorial.jpg'),
             store,
             activeTab: 'tab1',
-            dialogVisible: false
+            dialog1Visible: false,
+            dialog2Visible: false,
+
         }
     },
     components: {
-        Tab
+        Tab,
+        Plan
     },
     created() {
         let id = this.store.signedId

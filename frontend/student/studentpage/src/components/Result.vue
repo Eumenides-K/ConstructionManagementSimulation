@@ -1,8 +1,8 @@
 <template>
         <div class="result">
             <h1 style="font-size: 24px;"><el-icon><Crop /></el-icon> Your final result</h1>
-
-            <p><el-icon><OfficeBuilding /></el-icon> Building height: <span class="data">{{ store.height }}m</span></p>
+            <p><el-icon><OfficeBuilding /></el-icon> Target Building height: <span class="data">{{ store.targetHeight }}m</span></p>
+            <p><el-icon><OfficeBuilding /></el-icon> Actual Building height: <span class="data">{{ store.height }}m</span></p>
             <p><el-icon><TrendCharts /></el-icon> Project progress:</p>
             <div class="chart-container">
                 <v-chart :option="store.progress" autoresize />

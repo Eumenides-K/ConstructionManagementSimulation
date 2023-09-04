@@ -11,8 +11,8 @@ export const store = reactive({
     rc: 0,
     height: 0,
     price: 200000,
-    budget: 25000000,
-    budgetBefore: 25000000,
+    budget: 27500000,
+    budgetBefore: 27500000,
     shipmentCost: 150000,
     storageCost: 150000,
     labourCost: 100000,
@@ -24,7 +24,7 @@ export const store = reactive({
     materialPurchased: 0,
     materialCost: 200000,
     labourHired: 0,
-    plan: [],
+    targetHeight: 50,
     progress: {
         title: {
             show: true,

@@ -1,7 +1,7 @@
 <template>
     <ul>
       <li>
-        <h1>Total Budget: £ 25,000,000</h1>
+        <h1>Total Budget: £ 27,500,000</h1>
       </li>
       <li>
         <h1>Material Cost: £ 200,000 per unit (at the beginning of the game)</h1>
@@ -30,12 +30,12 @@
       <li>
       <h1>Shipping Cost: £ 150,000 per shipment</h1> 
       </li>
-      <li>
+      <!-- <li>
         <h1>Planning Cost: TBD</h1>
       </li>
       <li>
         <h1>Evaluation Methods: TBD</h1>  
-      </li>
+      </li> -->
     </ul>
 
 </template>

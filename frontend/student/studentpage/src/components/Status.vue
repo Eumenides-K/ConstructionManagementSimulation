@@ -46,6 +46,7 @@
 
         <div class="pp">
             <h2 style="font-size: 18px;"><el-icon><TrendCharts /></el-icon> Project Progress</h2>
+            <p>Target height: <span class="data">{{ store.targetHeight }}m</span></p>
             <p>Building height: <span class="data">{{ store.height }}m</span></p>
             <div v-if="store.height > 0">
                 <p>Project progress:</p>

@@ -17,7 +17,7 @@ const routes = [
     {
         path: '/',
         name: 'Intro',
-        component: Intro
+        component: Intro,
     },
     {
         path: '/gameplay',

@@ -7,7 +7,7 @@
         <p v-if="this.store.week === this.store.scd">
             <el-icon><Warning /></el-icon> A supply chain disruption is currently taking place. The material cost this week can be increased.
         </p>
-        <p v-if="this.store.week === rc">
+        <p v-if="this.store.week === this.store.rc">
             <el-icon><Warning /></el-icon> The goverment just made some regulatory changes. The material cost will be lowered from now on.
         </p>
     </div>

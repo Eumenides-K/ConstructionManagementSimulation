@@ -1,6 +1,6 @@
 # ConstructionManagementSimulation
 
-A web-based construction project management simulation (CPMS) game for MSc/BSc management students to play with an admin portal.
+A web-based construction project management simulation (CPMS) game for MSc/BSc management students to play with an admin portal based on Spring Boot and Vue.js.
 
 
 
